@@ -2,7 +2,7 @@
   "name": "tgz-package-downloader",
   "description": "Downloads all of the node_modules based on a package-lock.json file",
   "authors": "chenhaolin0124",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "scripts": {
     "test": "jasmine test/**/*spec.js --reporter=jasmine-console-reporter",
     "dev:test-package": "node bin/download-tgz package-json ../test-package/package.json",
