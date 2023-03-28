@@ -1,8 +1,8 @@
 {
-  "name": "node-tgz-downloader",
+  "name": "tgz-package-downloader",
   "description": "Downloads all of the node_modules based on a package-lock.json file",
-  "authors": "Meir017",
-  "version": "3.13.0",
+  "authors": "chenhaolin0124",
+  "version": "1.0.0",
   "scripts": {
     "test": "jasmine test/**/*spec.js --reporter=jasmine-console-reporter",
     "dev:test-package": "node bin/download-tgz package-json ../test-package/package.json",
@@ -39,7 +39,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Meir017/node-tgz-downloader.git"
+    "url": "https://github.com/LittleBoBo-beep/node-tgz-downloader.git"
   },
   "devDependencies": {
     "@types/jasmine": "^2.8.9",
