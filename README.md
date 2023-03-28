@@ -2,7 +2,7 @@
 [![NPM Version][npm-image]][npm-url]
 [![NPM Downloads][downloads-image]][downloads-url]
 
-# node-tgz-downloader
+# tgz-package-downloader
 Downloads all of the tarballs based on one of the following:
 
 - local `package-lock.json` file
@@ -15,7 +15,7 @@ Downloads all of the tarballs based on one of the following:
 ## install
 
 ```bash
-npm install node-tgz-downloader -g
+npm install tgz-package-downloader -g
 ```
 
 ## usage
@@ -23,7 +23,7 @@ npm install node-tgz-downloader -g
 ### From Code:
 
 ```js
-const downloader = require('node-tgz-downloader');
+const downloader = require('tgz-package-downloader');
 
 downloader.downloadFromPackageLock('path/to/package-lock');
 ```
