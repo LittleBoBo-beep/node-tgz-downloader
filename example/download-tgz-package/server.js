@@ -1,49 +1,48 @@
 const axios = require('axios');
-const fs = require("fs");
+const fs = require('fs');
+const path = require('path');
+
 const tarballPath = './tarball/';
 const npmRegistry = 'https://registry.npmmirror.com/';
-const packageLock = JSON.parse(fs.readFileSync('./test/package-lock.json'))
+const packageLock = JSON.parse(fs.readFileSync('./test/package-lock.json'));
 const packages = Object.entries(packageLock.dependencies);
 
-function main() {
-	const tarballs = new Map();
-	for (const [packageName, packagesValue] of packages) {
-		tarballs.set(packageName, packagesValue);
-	}
-	if (tarballs.size > 0 && !fs.existsSync(tarballPath)) {
+(async function () {
+	// Create tarball directory if it doesn't exist
+	if (!fs.existsSync(tarballPath)) {
 		fs.mkdirSync(tarballPath);
 	}
-	tarballs.forEach((value, key) =>  downloadTgz(key, value));
-}
-function downloadTgz(packageName, packagesValue) {
+	// Loop through packages and download tarballs
+	for (const [packageName, packagesValue] of packages) {
+		await downloadTgz(packageName, packagesValue);
+	}
+}())
+
+async function downloadTgz(packageName, packagesValue) {
+	// Split package name by '/' to create directory structure
 	const packageNames = packageName.split('/');
-	let directory = tarballPath + packageName;
-	if (packageNames.length >= 1) {
-		if (!fs.existsSync(tarballPath + packageNames[0])) {
-			fs.mkdirSync(tarballPath + packageNames[0]);
-			directory = tarballPath + packageNames[0];
-		}
-		if (packageNames[1] && !fs.existsSync(tarballPath + packageNames[0] + '/' + packageNames[1])) {
-			fs.mkdirSync(tarballPath + packageNames[0] + '/' + packageNames[1])
-			directory = tarballPath + packageNames[0] + '/' + packageNames[1];
+	let directory = tarballPath;
+	for (let i = 0; i < packageNames.length; i++) {
+		directory = path.join(directory, packageNames[i]);
+		// Create directory if it doesn't exist
+		if (!fs.existsSync(directory)) {
+			fs.mkdirSync(directory);
 		}
 	}
+	// Set directory path for tarball file
+	directory = path.join(directory, `${packageNames[packageNames.length - 1]}-${packagesValue.version}.tgz`);
+	// Download tarball and package.json files
 	const tgz = axios.get(packagesValue.resolved, { responseType: 'stream' });
-	const packageJson = axios.get(npmRegistry + packageName)
-	Promise.all([tgz, packageJson]).then(res => {
-		const [tgz, packageJson] = res;
-		const file = fs.createWriteStream(directory + '/' + packageNames[packageNames.length - 1] + '-' + packagesValue.version + '.tgz');
-		tgz.data.pipe(file);
-		fs.writeFileSync(directory + '/package.json', JSON.stringify(packageJson.data))
-		return new Promise((resolve, reject) => {
-			tgz.data.pipe(file);
-			file.on('finish', resolve);
-			file.on('error', reject);
-		}).then(() => {
-			console.info('finished:     ' + packageName)
-		}).catch((err) => {
-			console.error('error: ' + err);
-		});
-	})
+	const packageJson = axios.get(npmRegistry + packageName);
+	try {
+		const [tgzResponse, packageJsonResponse] = await Promise.all([tgz, packageJson]);
+		// Write tarball file to disk
+		const file = fs.createWriteStream(directory);
+		tgzResponse.data.pipe(file);
+		// Write package.json file to disk
+		fs.writeFileSync(path.join(path.dirname(directory), 'package.json'), JSON.stringify(packageJsonResponse.data));
+		console.info(`finished: ${packageName}`);
+	} catch (err) {
+		console.error(`error: ${err}`);
+	}
 }
-main();
