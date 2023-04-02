@@ -59,3 +59,7 @@ typings/
 
 # Idea products
 .idea
+
+# example package
+example
+example/download-tgz-package
