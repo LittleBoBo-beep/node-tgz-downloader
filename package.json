@@ -7,8 +7,7 @@
     "test": "jasmine test/**/*spec.js --reporter=jasmine-console-reporter",
     "dev:test-package": "node bin/download-tgz package-json ../test-package/package.json",
     "dev:test-package-lock": "node bin/download-tgz package-lock ../test-package/package-lock.json",
-    "dev:axios": "node bin/download-tgz package axios",
-    "publish": "npm publish"
+    "dev:axios": "node bin/download-tgz package axios"
   },
   "keywords": [
     "tgz",
@@ -24,7 +23,6 @@
     "https-proxy-agent": "^5.0.1",
     "mkdirp": "^0.5.1",
     "p-limit": "^4.0.0",
-    "request": "^2.87.0",
     "request-promise": "^4.2.2",
     "semver": "^5.5.0",
     "tar": "^4.4.6"
