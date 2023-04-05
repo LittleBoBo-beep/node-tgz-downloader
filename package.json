@@ -5,8 +5,8 @@
   "version": "1.0.2",
   "scripts": {
     "test": "jasmine test/**/*spec.js --reporter=jasmine-console-reporter",
-    "dev:test-package": "node bin/download-tgz package-json ../test-package/package.json",
-    "dev:test-package-lock": "node bin/download-tgz package-lock ../test-package/package-lock.json",
+    "dev:test-package": "node bin/download-tgz package-json test/test-data/lock/simple/package.json",
+    "dev:test-package-lock": "node bin/download-tgz package-lock test/test-data/lock/simple/package-lock.json",
     "dev:axios": "node bin/download-tgz package axios"
   },
   "keywords": [

@@ -4,7 +4,8 @@ const path = require('path');
 
 const tarballPath = './tarball/';
 const npmRegistry = 'https://registry.npmmirror.com/';
-const packageLock = JSON.parse(fs.readFileSync('./test/package-lock.json'));
+let packageLock = fs.readFileSync('./test/package-lock.json', { encoding: 'utf8' })
+packageLock = JSON.parse(packageLock);
 const packages = Object.entries(packageLock.dependencies);
 
 (async function () {
