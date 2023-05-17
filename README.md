@@ -3,7 +3,7 @@
 [![NPM Downloads][downloads-image]][downloads-url]
 
 # tgz-package-downloader
-Downloads all of the tarballs based on one of the following:
+Downloads all the tarballs based on one of the following:
 
 - local `package-lock.json` file
 - url to a `package-lock.json`
